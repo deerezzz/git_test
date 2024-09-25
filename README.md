@@ -1,8 +1,9 @@
 # git_practice1
 
+Changes from the remote repository
+
 <<<<<<< HEAD
-Your changes in the local file
+Your local changes
 =======
 Changes from the remote repository
 >>>>>>> origin/main
-
