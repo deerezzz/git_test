@@ -1,3 +1,9 @@
 # git_practice1
 
-Hello Odin! 
+Changes from the remote repository
+
+<<<<<<< HEAD
+Your local changes
+=======
+Changes from the remote repository
+>>>>>>> origin/main
