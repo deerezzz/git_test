@@ -37,6 +37,9 @@ class Rectangle {
 
 const rectangle = new Rectangle(3, 4);
 
+rectangle.width = 5; 
+rectangle.height = 6; 
+
 // Now you can access width and height using the getters
 console.log(rectangle.width);  // Logs: 3
 console.log(rectangle.height); // Logs: 4
