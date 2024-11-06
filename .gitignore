@@ -3,3 +3,13 @@ node_modules/
 
 package-lock.json
 package.json
+
+# Ignore node_modules folder
+node_modules/
+
+# Ignore .history folder (if used by your editor or versioning extension)
+.history/
+
+# Ignore package-lock.json and package.json
+package-lock.json
+package.json
