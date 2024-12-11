@@ -1,3 +1,17 @@
+/* App.css */
+.App-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* Add space between columns */
+  justify-content: space-between;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
 .App {
   text-align: center;
 }

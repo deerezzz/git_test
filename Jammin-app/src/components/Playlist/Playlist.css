@@ -1,0 +1,68 @@
+/* Playlist.css */
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.Playlist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+  margin: 30px auto; /* Adjusted margin for better spacing from the top */
+  gap: 20px; /* Spacing between elements inside Playlist */
+}
+
+.Playlist h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.Playlist input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.SaveButton {
+  background-color: #1db954; /* Spotify Green */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  transition: background-color 0.3s;
+  margin-top: 20px; /* Spacing above the button */
+}
+
+.SaveButton:hover {
+  background-color: #1ed760;
+}
+
+.TrackList {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Add space below Playlist to prevent overlapping with the SearchResults section */
+.Playlist + .SearchResults {
+  margin-top: 30px; /* Adjust as needed */
+}
+
+@media (max-width: 600px) {
+  .Playlist {
+    width: 90%; /* Adjust the width for small screens */
+    margin: 20px auto;
+  }
+}

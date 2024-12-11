@@ -1,0 +1,35 @@
+/* SearchResults.css */
+.SearchResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 800px;
+  margin: auto;
+}
+
+.SearchResults h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+}
+
+.TrackList {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Optional: Style for empty state, in case no results are available */
+.SearchResults .empty-state {
+  font-size: 18px;
+  color: #777;
+  text-align: center;
+  margin-top: 20px;
+}

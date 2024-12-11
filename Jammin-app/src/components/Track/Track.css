@@ -1,0 +1,28 @@
+.Track {
+  margin-bottom: 20px;
+  background-color: #f4f4f9;
+  border-radius: 5px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.Track h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.Track p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #777;
+}
+
+.SearchResults {
+  margin-top: 20px;
+}
+
+.App-content {
+  display: flex;
+  flex-direction: column;
+}
