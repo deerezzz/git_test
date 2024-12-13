@@ -1,35 +1,103 @@
-/* SearchResults.css */
-.SearchResults {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Styling for the search result container */
+.search-results-container {
   padding: 20px;
-  margin: 20px;
   background-color: #f9f9f9;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 800px;
-  margin: auto;
-}
-
-.SearchResults h2 {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 20px;
-  text-align: left;
-  font-family: "Roboto", sans-serif;
-}
-
-.TrackList {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-/* Optional: Style for empty state, in case no results are available */
-.SearchResults .empty-state {
-  font-size: 18px;
-  color: #777;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
   text-align: center;
+}
+
+/* Styling for the list of search results */
+.search-results {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Styling for individual search result items */
+.search-result-item {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  width: 250px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 350px; /* Ensure each item has the same height */
+  /* Add the following to make sure all items have equal height */
+  flex-grow: 1; /* Allow flex items to grow and fill available space */
+}
+
+/* Hover effect on result item */
+.search-result-item:hover {
+  transform: translateY(-5px);
+}
+
+/* Styling for track information */
+.track-info {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+  display: block;
+  text-transform: capitalize;
+}
+
+/* Styling for track image */
+.track-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Styling for the 'Add to Playlist' button */
+.add-to-playlist-btn {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-playlist-btn:hover {
+  background-color: #1ed760;
+  transform: scale(1.05);
+}
+
+/* Styling for 'Save to Spotify' button */
+.save-to-spotify-btn {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 5px;
+  cursor: pointer;
   margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.save-to-spotify-btn:hover {
+  background-color: #1ed760;
+}
+
+/* Styling for the 'Save to Spotify' button loading state */
+.save-to-spotify-btn[disabled] {
+  background-color: #b3b3b3;
+  cursor: not-allowed;
 }

@@ -1,4 +1,3 @@
-/* Playlist.css */
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -16,11 +15,30 @@ body {
   margin: 30px auto; /* Adjusted margin for better spacing from the top */
   gap: 20px; /* Spacing between elements inside Playlist */
 }
+.Playlist.active {
+  display: block; /* Ensure it is displayed when active */
+  animation: fadeIn 0.3s ease-in; /* Optional fade-in animation */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 .Playlist h2 {
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
+  position: relative;
+}
+
+.Playlist h2 span {
+  z-index: 10; /* Ensure the span is on top */
+  pointer-events: auto; /* Ensure pointer events are enabled */
 }
 
 .Playlist input[type="text"] {
@@ -29,8 +47,27 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 20px;
-  width: 100%;
-  max-width: 300px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.Playlist input[type="text"]:focus {
+  border-color: #1db954; /* Highlight border when input is focused */
+  outline: none; /* Remove default outline */
+}
+
+.Playlist input[type="text"].invalid {
+  border-color: #e63946; /* Red border for error */
+  background-color: #ffe6e6; /* Light red background */
+}
+
+.Playlist input[type="text"],
+.SaveButton {
+  transition: all 0.3s ease;
+}
+
+.Playlist.active {
+  border: 2px solid #1db954;
 }
 
 .SaveButton {
@@ -48,6 +85,11 @@ body {
 
 .SaveButton:hover {
   background-color: #1ed760;
+}
+
+.SaveButton:disabled {
+  background-color: #b3b3b3; /* Light gray for disabled state */
+  cursor: not-allowed;
 }
 
 .TrackList {

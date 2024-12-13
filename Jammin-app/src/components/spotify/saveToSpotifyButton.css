@@ -1,0 +1,16 @@
+/* Save to Playlist Button Styling */
+.save-to-playlist-button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  background-color: #1db954; /* Spotify Green */
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  width: 200px; /* Give it a fixed width */
+  margin-top: 20px; /* Add some space above the button */
+}
+
+.save-to-playlist-button:hover {
+  background-color: #1aa34a; /* Darker green on hover */
+}
