@@ -30,8 +30,11 @@ function SearchResults({ tracks, onAddToPlaylist, playlist = [] }) { // Default 
               </span>
               <button 
                 onClick={() => onAddToPlaylist(track)} 
+                disabled={playlist.some((t) => t.id === track.id)} // disable if already on playlist 
+                
                 className="add-to-playlist-btn">
-                Add to Playlist
+                {playlist.some((t) => t.id === track.id) ? 'Added' : 'Add to Playlist'}
+                
               </button>
             </li>
           );

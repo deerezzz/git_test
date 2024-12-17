@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SearchBar from '../SearchBar/SearchBar';  // Import the SearchBar component
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
+import Playlist from '../Playlist/Playlist';
 import Spotify from '../spotify/spotify';
 import './App.css';  // App styling
 import '../SearchBar/SearchBar.css';  // SearchBar styling
@@ -22,9 +23,14 @@ function App() {
   };
 
   const handleAddToPlaylist = (track) => {
-    setPlaylist((prevPlaylist) => [...prevPlaylist, track.uri]);
+    setPlaylist((prevPlaylist) => {
+      if (!prevPlaylist.some((t) => t.id === track.id)) {
+        return [...prevPlaylist, track]; // Add full track object
+      }
+      return prevPlaylist;
+    });
   };
-
+  
   const togglePlaylistVisibility = () => {
     setIsButtonLoading(true);
     setIsPlaylistVisible((prev) => !prev);
@@ -33,6 +39,11 @@ function App() {
       setIsButtonLoading(false);
     }, 500);
   };
+
+  const handleRemoveTrack = (trackId) => {
+    setPlaylist((prevPlaylist) => prevPlaylist.filter((track) => track.id !== trackId));
+  };
+  
 
   return (
     <div className="App">
@@ -55,20 +66,27 @@ function App() {
       {/* SearchResults component */}
       <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} playlist={playlist} />
 
-      {/* Playlist */}
-      {isPlaylistVisible && (
-        <div className={`Playlist ${isPlaylistVisible ? 'active' : ''}`}>
-          <h2>Your Playlist</h2>
-          <ul>
-            {playlist.map((trackUri, index) => (
-              <li key={index}>{trackUri}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+{/* Playlist */}
+{isPlaylistVisible && (
+  <div className={`Playlist ${isPlaylistVisible ? 'active' : ''}`}>
+    <h2>Your Playlist</h2>
+    {playlist.length > 0 ? (
+      <ul>
+        {playlist.map((track) => (
+          <li key={track.id}>
+            {track.name} by {track.artists.map((artist) => artist.name).join(', ')}
+            <button onClick={() => handleRemoveTrack(track.id)}>Remove</button>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>Your playlist is empty. Start adding tracks!</p>
+    )}
+  </div>
+)}
 
       {/* Display SaveToSpotifyButton */}
-      {playlist.length > 0 && <SaveToSpotifyButton customPlaylistName="My Custom Playlist" customTrackUris={playlist} />}
+      {playlist.length > 0 && <SaveToSpotifyButton customPlaylistName="My Custom Playlist" customTrackUris={playlist.map((track) => track.uri)} />}
     </div>
   );
 }

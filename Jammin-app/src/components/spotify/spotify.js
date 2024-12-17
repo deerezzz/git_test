@@ -6,6 +6,7 @@ let accessToken;
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
 
+
 const Spotify = {
   // Function to get access token
   getAccessToken() {
