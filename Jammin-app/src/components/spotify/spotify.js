@@ -1,11 +1,8 @@
 import axios from 'axios';
 
-const redirectUri = 'http://localhost:3000'; // Ensure this matches the one in your Spotify dashboard
 const scope = 'user-library-read user-top-read playlist-read-private playlist-modify-public'; // Define the required scopes
 let accessToken;
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-// const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
-
 
 const Spotify = {
   // Function to get access token
@@ -27,6 +24,9 @@ const Spotify = {
       window.history.pushState('Access Token', null, '/');
       return accessToken;
     } else {
+      // Set redirectUri based on environment (local or production)
+      const redirectUri = window.location.hostname === 'localhost' ? 'http://localhost:3000/callback' : 'https://your-app.netlify.app/callback';
+
       // Redirect user to Spotify authorization page
       const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
       window.location = authUrl;
