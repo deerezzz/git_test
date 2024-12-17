@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import SearchBar from '../SearchBar/SearchBar';  // Import the SearchBar component
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
-import Playlist from '../Playlist/Playlist';
 import Spotify from '../spotify/spotify';
 import './App.css';  // App styling
 import '../SearchBar/SearchBar.css';  // SearchBar styling
