@@ -4,7 +4,7 @@ const redirectUri = 'http://localhost:3000'; // Ensure this matches the one in y
 const scope = 'user-library-read user-top-read playlist-read-private playlist-modify-public'; // Define the required scopes
 let accessToken;
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
+// const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
 
 
 const Spotify = {
