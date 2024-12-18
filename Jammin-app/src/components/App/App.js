@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // Import BrowserRouter and Route
 import SearchBar from '../SearchBar/SearchBar';  // Import the SearchBar component
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
 import Spotify from '../spotify/spotify';
 import './App.css';  // App styling
 import '../SearchBar/SearchBar.css';  // SearchBar styling
+import Callback from './Callback';  // Add the callback page for handling Spotify login
 
 function App() {
   const [tracks, setTracks] = useState([]); // State for tracks
@@ -42,51 +44,64 @@ function App() {
   const handleRemoveTrack = (trackId) => {
     setPlaylist((prevPlaylist) => prevPlaylist.filter((track) => track.id !== trackId));
   };
-  
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Jamming</h1>
-        <p>Create Spotify playlists with ease!</p>
+    <Router>  {/* Wrap your app with BrowserRouter */}
+      <div className="App">
+        <header className="App-header">
+          <h1>Jamming</h1>
+          <p>Create Spotify playlists with ease!</p>
 
-        {/* View Playlist Button */}
-        <button
-          className={`playlist-toggle-btn ${isButtonLoading ? 'loading' : ''}`}
-          onClick={togglePlaylistVisibility}
-        >
-          {isButtonLoading ? 'Loading...' : isPlaylistVisible ? 'Hide Playlist' : 'View Playlist'}
-        </button>
-      </header>
+          {/* View Playlist Button */}
+          <button
+            className={`playlist-toggle-btn ${isButtonLoading ? 'loading' : ''}`}
+            onClick={togglePlaylistVisibility}
+          >
+            {isButtonLoading ? 'Loading...' : isPlaylistVisible ? 'Hide Playlist' : 'View Playlist'}
+          </button>
+        </header>
 
-      {/* SearchBar component */}
-      <SearchBar onSearch={handleSearch} />
+        {/* Define routes for different pages */}
+        <Switch>
+          <Route exact path="/" render={() => (
+            <>
+              {/* SearchBar component */}
+              <SearchBar onSearch={handleSearch} />
 
-      {/* SearchResults component */}
-      <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} playlist={playlist} />
+              {/* SearchResults component */}
+              <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} playlist={playlist} />
 
-{/* Playlist */}
-{isPlaylistVisible && (
-  <div className={`Playlist ${isPlaylistVisible ? 'active' : ''}`}>
-    <h2>Your Playlist</h2>
-    {playlist.length > 0 ? (
-      <ul>
-        {playlist.map((track) => (
-          <li key={track.id}>
-            {track.name} by {track.artists.map((artist) => artist.name).join(', ')}
-            <button onClick={() => handleRemoveTrack(track.id)}>Remove</button>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>Your playlist is empty. Start adding tracks!</p>
-    )}
-  </div>
-)}
+              {/* Playlist */}
+              {isPlaylistVisible && (
+                <div className={`Playlist ${isPlaylistVisible ? 'active' : ''}`}>
+                  <h2>Your Playlist</h2>
+                  {playlist.length > 0 ? (
+                    <ul>
+                      {playlist.map((track) => (
+                        <li key={track.id}>
+                          {track.name} by {track.artists.map((artist) => artist.name).join(', ')}
+                          <button onClick={() => handleRemoveTrack(track.id)}>Remove</button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>Your playlist is empty. Start adding tracks!</p>
+                  )}
+                </div>
+              )}
 
-      {/* Display SaveToSpotifyButton */}
-      {playlist.length > 0 && <SaveToSpotifyButton customPlaylistName="My Custom Playlist" customTrackUris={playlist.map((track) => track.uri)} />}
-    </div>
+              {/* Display SaveToSpotifyButton */}
+              {playlist.length > 0 && <SaveToSpotifyButton customPlaylistName="My Custom Playlist" customTrackUris={playlist.map((track) => track.uri)} />}
+            </>
+          )} />
+
+          {/* Callback route for Spotify authentication */}
+          <Route path="/callback" component={Callback} />  {/* This route handles the callback page */}
+
+          {/* Add more routes here as needed */}
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
