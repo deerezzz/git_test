@@ -30,7 +30,7 @@ function SearchBar({ onSearch }) {
         value={searchTerm}
         onChange={handleChange}
         onKeyDown={handleKeyDown} // Add keydown event listener for 'Enter'
-        placeholder="Search for tracks..."
+        placeholder="Enter Artist, Song to search for tracks..."
       />
       <button onClick={handleClick}>Search</button>
     </div>
