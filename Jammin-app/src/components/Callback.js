@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Spotify from '../spotify/spotify';
+import Spotify from './spotify/spotify';
 
 const Callback = () => {
   const history = useHistory();

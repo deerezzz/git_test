@@ -6,7 +6,7 @@ import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
 import Spotify from '../spotify/spotify';
 import './App.css';  // App styling
 import '../SearchBar/SearchBar.css';  // SearchBar styling
-import Callback from './Callback';  // Add the callback page for handling Spotify login
+import Callback from '../Callback';  // Add the callback page for handling Spotify login
 
 function App() {
   const [tracks, setTracks] = useState([]); // State for tracks
