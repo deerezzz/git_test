@@ -31,7 +31,7 @@ function App() {
       return prevPlaylist;
     });
   };
-  
+
   const togglePlaylistVisibility = () => {
     setIsButtonLoading(true);
     setIsPlaylistVisible((prev) => !prev);
@@ -46,7 +46,7 @@ function App() {
   };
 
   return (
-    <Router>  {/* Wrap your app with BrowserRouter */}
+    <Router> {/* Wrap your app with BrowserRouter */}
       <div className="App">
         <header className="App-header">
           <h1>Jamming</h1>
@@ -96,8 +96,8 @@ function App() {
           )} />
 
           {/* Callback route for Spotify authentication */}
-          <Route path="/callback" component={Callback} />  {/* This route handles the callback page */}
-
+          <Route path="/callback" component={Callback} /> {/* This route handles the callback page */}
+          
           {/* Add more routes here as needed */}
         </Switch>
       </div>
