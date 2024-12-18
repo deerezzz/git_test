@@ -25,7 +25,9 @@ const Spotify = {
       return accessToken;
     } else {
       // Set redirectUri based on environment (local or production)
-      const redirectUri = window.location.hostname === 'localhost' ? 'http://localhost:3000/callback' : 'https://your-app.netlify.app/callback';
+      const redirectUri = window.location.hostname === 'localhost' 
+        ? 'http://localhost:3000/callback' 
+        : 'https://custom-playlist-wizard.netlify.app/callback'; // Corrected Netlify URL
 
       // Redirect user to Spotify authorization page
       const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
