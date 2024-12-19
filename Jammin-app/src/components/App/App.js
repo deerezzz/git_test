@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom'; // Updated import
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'; // Updated import
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
