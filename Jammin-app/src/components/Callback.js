@@ -1,9 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react'; // Added useState
 import { useNavigate } from 'react-router-dom';
 import Spotify from './spotify/spotify';
 
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => { // Changed `Children` to `children`
+  const [token, setToken] = useState(null);
+
+  return (
+    <AuthContext.Provider value={{ token, setToken }}>
+      {children} {/* Use lowercase 'children' */}
+    </AuthContext.Provider>
+  );
+};
+
 const Callback = () => {
-  const navigate = useNavigate(); // Update to useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get the access token from the URL using the Spotify API
