@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';  // useNavigate is now correctly within Router context
+import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom'; // Ensure Routes and Route are imported
+
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
