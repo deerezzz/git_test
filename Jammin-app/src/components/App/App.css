@@ -1,7 +1,7 @@
 /* General App Container */
 .App {
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif; /* Clean font for better readability */
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
@@ -25,31 +25,20 @@
 
 h1 {
   font-size: 3rem;
-  color: #1db954; /* Spotify Green */
+  color: #1db954;
   margin-bottom: 20px;
 }
 
 .App-header p {
   font-size: 1.2rem;
-  color: #61dafb; /* Light blue accent */
-}
-
-.Playlist {
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: all 0.3s ease;
-}
-
-.Playlist.active {
-  opacity: 1;
-  transform: translateY(0);
+  color: #61dafb;
 }
 
 /* View Playlist Button */
 .playlist-toggle-btn {
   padding: 10px 20px;
   font-size: 1.2rem;
-  background-color: #1db954; /* Spotify Green */
+  background-color: #1db954;
   border: none;
   border-radius: 5px;
   color: white;
@@ -57,21 +46,32 @@ h1 {
   width: 200px;
   margin-top: 20px;
   transition: background-color 0.3s;
-  outline: none; /* To prevent focus outline */
+  outline: none;
 }
 
 .playlist-toggle-btn:hover {
-  background-color: #1aa34a; /* Darker green on hover */
+  background-color: #1aa34a;
 }
 
 /* Loading State for Button */
 .playlist-toggle-btn.loading {
-  background-color: #b2dfdb; /* Light cyan for loading */
+  background-color: #b2dfdb;
   color: #000;
 }
 
 .playlist-toggle-btn.loading:hover {
-  background-color: #80cbc4; /* Slightly darker for hover when loading */
+  background-color: #80cbc4;
+}
+
+/* User Info */
+.user-info {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.user-info img {
+  border-radius: 50%;
+  margin-top: 10px;
 }
 
 /* Playlist Container Styling */
@@ -81,9 +81,9 @@ h1 {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 80%; /* For better responsiveness */
+  width: 80%;
   max-width: 600px;
-  margin-top: 30px; /* Space from the top */
+  margin-top: 30px;
 }
 
 .playlist-container ul {
@@ -98,7 +98,6 @@ h1 {
   margin: 5px 0;
 }
 
-/* Make sure elements don't overlap on smaller screens */
 @media (max-width: 600px) {
   .App {
     padding: 10px;

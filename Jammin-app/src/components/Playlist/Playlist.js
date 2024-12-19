@@ -3,7 +3,7 @@ import TrackList from '../TrackList/TrackList';
 import './Playlist.css';
 import Spotify from '../spotify/spotify';
 
-function Playlist({ playlistName, tracks, onRemove, onRename, onSave }) {
+function Playlist({ playlistName, tracks, onRemove, onRename, onSave, onViewPlaylist }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(playlistName);
   const [userInfo, setUserInfo] = useState(null); // Store user info
@@ -101,6 +101,14 @@ function Playlist({ playlistName, tracks, onRemove, onRename, onSave }) {
 
   return (
     <div className="Playlist">
+      {/* User info display */}
+      {userInfo && (
+        <div className="user-info">
+          <p>Logged in as: {userInfo.display_name}</p>
+          <img src={userInfo.images[0]?.url} alt="Profile" width="50" />
+        </div>
+      )}
+
       <h2>
         {isEditing ? (
           <input
@@ -116,19 +124,16 @@ function Playlist({ playlistName, tracks, onRemove, onRename, onSave }) {
         )}
       </h2>
 
-      {/* Display user information */}
-      {userInfo && (
-        <div className="user-info">
-          <p>Logged in as: {userInfo.display_name}</p>
-          <img src={userInfo.images[0]?.url} alt="Profile" width="50" />
-        </div>
-      )}
-
       <TrackList tracks={tracks} onRemove={removeTrack} />
-      
-      {/* Save Playlist Button */}
-      <button className="SaveButton" onClick={savePlaylist}>
-        Save to Spotify
+
+      {/* Add to Playlist / Save to Playlist Button */}
+      <button className="AddButton" onClick={savePlaylist}>
+        Save to Playlist
+      </button>
+
+      {/* View Playlist button to redirect */}
+      <button className="ViewPlaylistButton" onClick={onViewPlaylist}>
+        View Playlist
       </button>
     </div>
   );

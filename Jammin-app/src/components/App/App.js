@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useHistory } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
@@ -7,14 +7,16 @@ import Spotify from '../spotify/spotify';
 import './App.css';
 import '../SearchBar/SearchBar.css';
 import Callback from '../Callback';
-import Playlist from './Playlist'; // Create a separate component for the Playlist page
+import Playlist from './Playlist'; // Import the updated Playlist component
 
 function App() {
   const [tracks, setTracks] = useState([]);
   const [playlist, setPlaylist] = useState([]);
+  const [playlistName, setPlaylistName] = useState('My Playlist');
   const [isPlaylistVisible, setIsPlaylistVisible] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState(null); // New state to store user info
+  const [userInfo, setUserInfo] = useState(null); // State to store user info
+  const history = useHistory(); // Used for redirection to the playlist view
 
   useEffect(() => {
     // Fetch user info from Spotify API if logged in
@@ -71,7 +73,7 @@ function App() {
           <h1>Jamming</h1>
           <p>Create Spotify playlists with ease!</p>
 
-          {/* User Info */}
+          {/* User Info Display */}
           {userInfo ? (
             <div>
               <p>Logged in as: {userInfo.display_name}</p>
@@ -97,7 +99,7 @@ function App() {
             element={
               <>
                 <SearchBar onSearch={handleSearch} />
-                <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} playlist={playlist} />
+                <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} />
                 {isPlaylistVisible && (
                   <div className={`Playlist ${isPlaylistVisible ? 'active' : ''}`}>
                     <h2>Your Playlist</h2>
@@ -116,13 +118,25 @@ function App() {
                   </div>
                 )}
                 {playlist.length > 0 && (
-                  <SaveToSpotifyButton customPlaylistName="My Custom Playlist" customTrackUris={playlist.map((track) => track.uri)} />
+                  <SaveToSpotifyButton customPlaylistName={playlistName} customTrackUris={playlist.map((track) => track.uri)} />
                 )}
               </>
             }
           />
           <Route path="/callback" element={<Callback />} />
-          <Route path="/playlist" element={<Playlist playlist={playlist} />} /> {/* Playlist route */}
+          <Route
+            path="/playlist"
+            element={
+              <Playlist
+                playlistName={playlistName}
+                tracks={playlist}
+                onRemove={handleRemoveTrack}
+                onRename={setPlaylistName}
+                onSave={() => console.log('Save Playlist functionality')}
+                onViewPlaylist={() => history.push('/playlist')} // Ensure the View Playlist button works for redirection
+              />
+            }
+          />
         </Routes>
       </div>
     </Router>
