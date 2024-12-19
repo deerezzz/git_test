@@ -7,7 +7,7 @@ import Spotify from '../spotify/spotify';
 import './App.css';
 import '../SearchBar/SearchBar.css';
 import Callback from '../Callback';
-import Playlist from './Playlist'; // Import the updated Playlist component
+import Playlist from '../Playlist/Playlist'; // Import the updated Playlist component
 
 function App() {
   const [tracks, setTracks] = useState([]);
