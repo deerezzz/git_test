@@ -3,7 +3,7 @@ import axios from 'axios';
 const scope = 'user-library-read user-top-read playlist-read-private playlist-modify-public'; // Define the required scopes
 let accessToken;
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-console.log('Spotify Client ID:', clientId);
+// console.log('Spotify Client ID:', clientId);
 
 
 const Spotify = {
@@ -33,7 +33,9 @@ const Spotify = {
 
       // Redirect user to Spotify authorization page
       const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+      // console.log('Auth URL:', authUrl);
       window.location = authUrl;
+      
     }
   },
 
