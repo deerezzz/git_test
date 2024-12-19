@@ -1,13 +1,25 @@
 import axios from 'axios';
 
-const scope = 'user-library-read user-top-read playlist-read-private playlist-modify-public'; // Define the required scopes
+const scope = 'user-library-read user-top-read playlist-read-private playlist-modify-public';
 let accessToken;
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-// console.log('Spotify Client ID:', clientId);
 
+// Define the redirect URI based on the environment
+const redirectUri =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3000/callback'
+    : 'https://custom-playlist-wizard.netlify.app/callback';
 
 const Spotify = {
-  // Function to get access token
+  // Login method to redirect the user to Spotify's authorization page
+  login() {
+    const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${encodeURIComponent(
+      scope
+    )}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    window.location = authUrl; // Redirect user to Spotify login
+  },
+
+  // Method to get access token
   getAccessToken() {
     if (accessToken) {
       return accessToken; // Return existing token if it exists
@@ -21,21 +33,13 @@ const Spotify = {
       accessToken = tokenMatch[1];
       const expiresIn = Number(expiresInMatch[1]);
 
-      // Clear token from URL after it's obtained
+      // Clear token after expiration
       window.setTimeout(() => (accessToken = ''), expiresIn * 1000);
       window.history.pushState('Access Token', null, '/');
       return accessToken;
     } else {
-      // Set redirectUri based on environment (local or production)
-      const redirectUri = window.location.hostname === 'localhost' 
-        ? 'http://localhost:3000/callback' 
-        : 'https://custom-playlist-wizard.netlify.app/callback'; // Corrected Netlify URL
-
-      // Redirect user to Spotify authorization page
-      const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-      // console.log('Auth URL:', authUrl);
-      window.location = authUrl;
-      
+      // Redirect to login if no token is found
+      this.login();
     }
   },
 

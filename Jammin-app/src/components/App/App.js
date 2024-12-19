@@ -77,7 +77,7 @@ function App() {
             <img src={userInfo.images[0]?.url} alt="Profile" width="50" />
           </div>
         ) : (
-          <p>Not logged in</p>
+          <button onClick={() => Spotify.login()}>Log In</button> 
         )}
 
         <button
