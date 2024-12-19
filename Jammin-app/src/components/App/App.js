@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom'; // Updated import
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
@@ -16,7 +16,7 @@ function App() {
   const [isPlaylistVisible, setIsPlaylistVisible] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [userInfo, setUserInfo] = useState(null); // State to store user info
-  const history = useHistory(); // Used for redirection to the playlist view
+  const navigate = useNavigate(); // Updated for React Router v6
 
   useEffect(() => {
     // Fetch user info from Spotify API if logged in
@@ -133,7 +133,7 @@ function App() {
                 onRemove={handleRemoveTrack}
                 onRename={setPlaylistName}
                 onSave={() => console.log('Save Playlist functionality')}
-                onViewPlaylist={() => history.push('/playlist')} // Ensure the View Playlist button works for redirection
+                onViewPlaylist={() => navigate('/playlist')} // Updated to use navigate
               />
             }
           />
