@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const scope = 'user-library-read user-top-read playlist-read-private playlist-modify-public';
-let accessToken;
+let accessToken = '';
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
 // Define the redirect URI based on the environment
@@ -19,52 +19,59 @@ const Spotify = {
     window.location = authUrl; // Redirect user to Spotify login
   },
 
+  // Logout method to clear the access token
+  logout() {
+    accessToken = ''; // Clear the stored access token
+    console.log('User logged out');
+    window.history.pushState('Access Token', null, '/'); // Clean up URL
+  },
+
   // Method to get access token
   getAccessToken() {
     console.log('Checking for access token...');
-    
+
     if (accessToken) {
       console.log('Returning existing access token:', accessToken);
       return accessToken;
     }
-  
+
     const tokenMatch = window.location.href.match(/access_token=([^&]*)/);
     const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
-  
+
     if (tokenMatch && expiresInMatch) {
       accessToken = tokenMatch[1];
       const expiresIn = Number(expiresInMatch[1]);
-  
+
       // Set token expiry
       window.setTimeout(() => {
         accessToken = '';
         console.log('Access token expired');
       }, expiresIn * 1000);
-  
+
       // Clean up the URL by removing the token and expiry from the URL
       window.history.pushState('Access Token', null, '/');
       console.log('Access token received:', accessToken);
       return accessToken;
     } else {
       console.log('No token found, redirecting to login...');
-      this.login();  // Redirects to the Spotify login page
+      this.login();  // Redirect to the Spotify login page if no token
     }
   },
-  // Method to get user info
-async getUserInfo(token) {
-  try {
-    const { data } = await axios.get('https://api.spotify.com/v1/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return data; // Return the user info
-  } catch (error) {
-    console.error('Error fetching user info:', error);
-    throw error; // Propagate the error for handling in App.js
-  }
-},
 
+  // Method to get user info
+  async getUserInfo(token) {
+    try {
+      const { data } = await axios.get('https://api.spotify.com/v1/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return data; // Return the user info
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      throw error; // Propagate the error for handling in App.js
+    }
+  },
 
   // Method to create a playlist and add tracks to it
   async saveCustomPlaylist(customPlaylistName, trackUris) {

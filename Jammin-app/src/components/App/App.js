@@ -18,6 +18,7 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
 
+  // Retrieve access token on initial mount
   useEffect(() => {
     const token = Spotify.getAccessToken(); // Get access token
     if (token) {
@@ -34,7 +35,6 @@ function App() {
     }
   }, []); // Run only once on initial mount
   
-
   const handleSearch = async (searchTerm) => {
     try {
       const results = await Spotify.searchTracks(searchTerm);
@@ -66,10 +66,17 @@ function App() {
     setPlaylist((prevPlaylist) => prevPlaylist.filter((track) => track.id !== trackId));
   };
 
+  // Start the login flow when the button is clicked
   const startLoginFlow = () => {
     Spotify.getAccessToken(); // Triggers the login flow if no token is present
   };
-  
+
+  // Handle logging out (clear token and reset user info)
+  const handleLogout = () => {
+    Spotify.logout(); // Implement this function to clear the token
+    setUserInfo(null); // Reset user info on logout
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -80,9 +87,14 @@ function App() {
           <div>
             <p>Logged in as: {userInfo.display_name}</p>
             <img src={userInfo.images[0]?.url} alt="Profile" width="50" />
+            {/* Show Log Out button when logged in */}
+            <button className="logIn" onClick={handleLogout}>Log Out</button>
           </div>
         ) : (
-          <button className="logIn" onClick={startLoginFlow}>{userInfo ? 'Log Out' : 'Log In'}</button>
+          <div>
+            {/* Show Log In button when not logged in */}
+            <button className="logIn" onClick={startLoginFlow}>Log In</button>
+          </div>
         )}
 
         <button
