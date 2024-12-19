@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // Import BrowserRouter and Route
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Replace Switch with Routes and update imports
 import SearchBar from '../SearchBar/SearchBar';  // Import the SearchBar component
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
@@ -62,8 +62,8 @@ function App() {
         </header>
 
         {/* Define routes for different pages */}
-        <Switch>
-          <Route exact path="/" render={() => (
+        <Routes>
+          <Route path="/" element={(
             <>
               {/* SearchBar component */}
               <SearchBar onSearch={handleSearch} />
@@ -94,12 +94,12 @@ function App() {
               {playlist.length > 0 && <SaveToSpotifyButton customPlaylistName="My Custom Playlist" customTrackUris={playlist.map((track) => track.uri)} />}
             </>
           )} />
-
+          
           {/* Callback route for Spotify authentication */}
-          <Route path="/callback" component={Callback} /> {/* This route handles the callback page */}
+          <Route path="/callback" element={<Callback />} /> {/* This route handles the callback page */}
           
           {/* Add more routes here as needed */}
-        </Switch>
+        </Routes>
       </div>
     </Router>
   );

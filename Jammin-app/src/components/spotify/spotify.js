@@ -3,6 +3,8 @@ import axios from 'axios';
 const scope = 'user-library-read user-top-read playlist-read-private playlist-modify-public'; // Define the required scopes
 let accessToken;
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+console.log('Spotify Client ID:', clientId);
+
 
 const Spotify = {
   // Function to get access token

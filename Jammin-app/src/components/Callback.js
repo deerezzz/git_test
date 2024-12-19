@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Spotify from './spotify/spotify';
 
 const Callback = () => {
-  const history = useHistory();
+  const navigate = useNavigate(); // Update to useNavigate
 
   useEffect(() => {
     // Get the access token from the URL using the Spotify API
     const token = Spotify.getAccessToken();
     if (token) {
       // Redirect to the home page after login
-      history.push('/');
+      navigate('/'); // Use navigate instead of history.push
     }
-  }, [history]);
+  }, [navigate]);
 
   return (
     <div>
