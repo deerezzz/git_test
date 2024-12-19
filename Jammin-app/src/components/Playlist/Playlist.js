@@ -127,7 +127,10 @@ function Playlist({ playlistName, tracks, onRemove, onRename, onSave, onViewPlay
       <TrackList tracks={tracks} onRemove={removeTrack} />
 
       {/* Add to Playlist / Save to Playlist Button */}
-      <button className="AddButton" onClick={savePlaylist}>
+      <button className="SaveButton"
+       onClick={savePlaylist}
+       disabled={isSaving}
+       >
         Save to Playlist
       </button>
 
