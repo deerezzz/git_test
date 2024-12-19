@@ -9,6 +9,17 @@
   align-items: center;
 }
 
+.logIn {
+  background-color: #1db954;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 /* Header Styling */
 .App-header {
   background-color: #282c34;

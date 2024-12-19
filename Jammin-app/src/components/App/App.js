@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom'; // Remove BrowserRouter import
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
@@ -19,19 +19,19 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const accessToken = localStorage.getItem('accessToken');
-      if (accessToken) {
+    const accessToken = Spotify.getAccessToken();
+    if (accessToken) {
+      const fetchUserInfo = async () => {
         try {
-          const response = await Spotify.getUserInfo(accessToken);
-          setUserInfo(response);
+          const userData = await Spotify.getUserInfo(accessToken);
+          setUserInfo(userData);
         } catch (error) {
           console.error('Error fetching user info:', error);
         }
-      }
-    };
+      };
 
-    fetchUserInfo();
+      fetchUserInfo();
+    }
   }, []);
 
   const handleSearch = async (searchTerm) => {
@@ -65,6 +65,10 @@ function App() {
     setPlaylist((prevPlaylist) => prevPlaylist.filter((track) => track.id !== trackId));
   };
 
+  const handleLogin = () => {
+    Spotify.getAccessToken(); // Triggers the login flow if no token is present
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -77,7 +81,7 @@ function App() {
             <img src={userInfo.images[0]?.url} alt="Profile" width="50" />
           </div>
         ) : (
-          <button onClick={() => Spotify.login()}>Log In</button> 
+          <button className="logIn" onClick={handleLogin}>Log In</button>
         )}
 
         <button
