@@ -21,27 +21,50 @@ const Spotify = {
 
   // Method to get access token
   getAccessToken() {
+    console.log('Checking for access token...');
+    
     if (accessToken) {
-      return accessToken; // Return existing token if it exists
+      console.log('Returning existing access token:', accessToken);
+      return accessToken;
     }
-
-    // Check if token is present in URL
+  
     const tokenMatch = window.location.href.match(/access_token=([^&]*)/);
     const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
-
+  
     if (tokenMatch && expiresInMatch) {
       accessToken = tokenMatch[1];
       const expiresIn = Number(expiresInMatch[1]);
-
-      // Clear token after expiration
-      window.setTimeout(() => (accessToken = ''), expiresIn * 1000);
+  
+      // Set token expiry
+      window.setTimeout(() => {
+        accessToken = '';
+        console.log('Access token expired');
+      }, expiresIn * 1000);
+  
+      // Clean up the URL by removing the token and expiry from the URL
       window.history.pushState('Access Token', null, '/');
+      console.log('Access token received:', accessToken);
       return accessToken;
     } else {
-      // Redirect to login if no token is found
-      this.login();
+      console.log('No token found, redirecting to login...');
+      this.login();  // Redirects to the Spotify login page
     }
   },
+  // Method to get user info
+async getUserInfo(token) {
+  try {
+    const { data } = await axios.get('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data; // Return the user info
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+    throw error; // Propagate the error for handling in App.js
+  }
+},
+
 
   // Method to create a playlist and add tracks to it
   async saveCustomPlaylist(customPlaylistName, trackUris) {

@@ -19,20 +19,21 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const accessToken = Spotify.getAccessToken();
-    if (accessToken) {
+    const token = Spotify.getAccessToken(); // Get access token
+    if (token) {
       const fetchUserInfo = async () => {
         try {
-          const userData = await Spotify.getUserInfo(accessToken);
+          const userData = await Spotify.getUserInfo(token);
           setUserInfo(userData);
         } catch (error) {
           console.error('Error fetching user info:', error);
         }
       };
-
+  
       fetchUserInfo();
     }
-  }, []);
+  }, []); // Run only once on initial mount
+  
 
   const handleSearch = async (searchTerm) => {
     try {
@@ -65,10 +66,10 @@ function App() {
     setPlaylist((prevPlaylist) => prevPlaylist.filter((track) => track.id !== trackId));
   };
 
-  const handleLogin = () => {
+  const startLoginFlow = () => {
     Spotify.getAccessToken(); // Triggers the login flow if no token is present
   };
-
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -81,7 +82,7 @@ function App() {
             <img src={userInfo.images[0]?.url} alt="Profile" width="50" />
           </div>
         ) : (
-          <button className="logIn" onClick={handleLogin}>Log In</button>
+          <button className="logIn" onClick={startLoginFlow}>{userInfo ? 'Log Out' : 'Log In'}</button>
         )}
 
         <button
