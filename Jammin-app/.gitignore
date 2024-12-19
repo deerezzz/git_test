@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 node_modules/
 
-#Jammin-app api keys
+#JK
 .env
