@@ -7,6 +7,7 @@ function Playlist({ playlistName, tracks, onRemove, onRename, onSave, onViewPlay
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(playlistName);
   const [userInfo, setUserInfo] = useState(null); // Store user info
+  const [isSaving, setIsSaving] = useState(false); // Define isSaving state
 
   useEffect(() => {
     // Fetch user info from Spotify API if logged in
@@ -55,10 +56,14 @@ function Playlist({ playlistName, tracks, onRemove, onRename, onSave, onViewPlay
 
     const trackUris = tracks.map((track) => track.uri);
 
+    // Set isSaving to true when starting to save the playlist
+    setIsSaving(true);
+
     // Integrate Spotify API logic
     const accessToken = Spotify.getAccessToken();
     if (!accessToken) {
       alert('Unable to save playlist. Please log in to Spotify.');
+      setIsSaving(false); // Set isSaving to false when an error occurs
       return;
     }
 
@@ -96,6 +101,9 @@ function Playlist({ playlistName, tracks, onRemove, onRename, onSave, onViewPlay
       .catch((error) => {
         console.error('Error saving playlist:', error);
         alert('An error occurred while saving the playlist. Please try again.');
+      })
+      .finally(() => {
+        setIsSaving(false); // Set isSaving to false once the save operation is complete
       });
   };
 
@@ -127,11 +135,8 @@ function Playlist({ playlistName, tracks, onRemove, onRename, onSave, onViewPlay
       <TrackList tracks={tracks} onRemove={removeTrack} />
 
       {/* Add to Playlist / Save to Playlist Button */}
-      <button className="SaveButton"
-       onClick={savePlaylist}
-       disabled={isSaving}
-       >
-        Save to Playlist
+      <button className="SaveButton" onClick={savePlaylist} disabled={isSaving}>
+        {isSaving ? 'Saving...' : 'Save to Playlist'}
       </button>
 
       {/* View Playlist button to redirect */}
