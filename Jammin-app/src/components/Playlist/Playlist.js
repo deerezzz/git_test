@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TrackList from '../TrackList/TrackList';
 import './Playlist.css';
 import Spotify from '../spotify/spotify';
 
-
-
 function Playlist({ playlistName, tracks, onRemove, onRename, onSave }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(playlistName);
+  const [userInfo, setUserInfo] = useState(null); // Store user info
+
+  useEffect(() => {
+    // Fetch user info from Spotify API if logged in
+    const fetchUserInfo = async () => {
+      const accessToken = Spotify.getAccessToken();
+      if (accessToken) {
+        try {
+          const response = await Spotify.getUserInfo(accessToken);
+          setUserInfo(response); // Save user info
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+        }
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const handleChange = (event) => {
     setNewName(event.target.value);
@@ -99,7 +115,18 @@ function Playlist({ playlistName, tracks, onRemove, onRename, onSave }) {
           <span onClick={() => setIsEditing(true)}>{playlistName}</span>
         )}
       </h2>
+
+      {/* Display user information */}
+      {userInfo && (
+        <div className="user-info">
+          <p>Logged in as: {userInfo.display_name}</p>
+          <img src={userInfo.images[0]?.url} alt="Profile" width="50" />
+        </div>
+      )}
+
       <TrackList tracks={tracks} onRemove={removeTrack} />
+      
+      {/* Save Playlist Button */}
       <button className="SaveButton" onClick={savePlaylist}>
         Save to Spotify
       </button>

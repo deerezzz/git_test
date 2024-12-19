@@ -1,24 +1,42 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Replace Switch with Routes and update imports
-import { AuthProvider } from '../Callback'; // Import AuthProvider
-import SearchBar from '../SearchBar/SearchBar';  // Import the SearchBar component
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import SaveToSpotifyButton from '../spotify/SaveToSpotifyButton';
 import Spotify from '../spotify/spotify';
-import './App.css';  // App styling
-import '../SearchBar/SearchBar.css';  // SearchBar styling
-import Callback from '../Callback';  // Add the callback page for handling Spotify login
+import './App.css';
+import '../SearchBar/SearchBar.css';
+import Callback from '../Callback';
+import Playlist from './Playlist'; // Create a separate component for the Playlist page
 
 function App() {
-  const [tracks, setTracks] = useState([]); // State for tracks
-  const [playlist, setPlaylist] = useState([]); // State for the playlist
-  const [isPlaylistVisible, setIsPlaylistVisible] = useState(false); // State to toggle playlist visibility
-  const [isButtonLoading, setIsButtonLoading] = useState(false); // State for button loading state
+  const [tracks, setTracks] = useState([]);
+  const [playlist, setPlaylist] = useState([]);
+  const [isPlaylistVisible, setIsPlaylistVisible] = useState(false);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState(null); // New state to store user info
+
+  useEffect(() => {
+    // Fetch user info from Spotify API if logged in
+    const fetchUserInfo = async () => {
+      const accessToken = localStorage.getItem('accessToken'); // Assuming token is stored here
+      if (accessToken) {
+        try {
+          const response = await Spotify.getUserInfo(accessToken);
+          setUserInfo(response); // Save user info
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+        }
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const handleSearch = async (searchTerm) => {
     try {
       const results = await Spotify.searchTracks(searchTerm);
-      setTracks(results); // Update tracks on search
+      setTracks(results);
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
@@ -47,33 +65,39 @@ function App() {
   };
 
   return (
-    <AuthProvider> {/* Wrap your app in AuthProvider to provide the auth context */}
-      <Router> {/* Wrap your app with BrowserRouter */}
-        <div className="App">
-          <header className="App-header">
-            <h1>Jamming</h1>
-            <p>Create Spotify playlists with ease!</p>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <h1>Jamming</h1>
+          <p>Create Spotify playlists with ease!</p>
 
-            {/* View Playlist Button */}
-            <button
-              className={`playlist-toggle-btn ${isButtonLoading ? 'loading' : ''}`}
-              onClick={togglePlaylistVisibility}
-            >
-              {isButtonLoading ? 'Loading...' : isPlaylistVisible ? 'Hide Playlist' : 'View Playlist'}
-            </button>
-          </header>
+          {/* User Info */}
+          {userInfo ? (
+            <div>
+              <p>Logged in as: {userInfo.display_name}</p>
+              <img src={userInfo.images[0]?.url} alt="Profile" width="50" />
+            </div>
+          ) : (
+            <p>Not logged in</p>
+          )}
 
-          {/* Define routes for different pages */}
-          <Routes>
-            <Route path="/" element={(
+          {/* View Playlist Button */}
+          <button
+            className={`playlist-toggle-btn ${isButtonLoading ? 'loading' : ''}`}
+            onClick={togglePlaylistVisibility}
+          >
+            {isButtonLoading ? 'Loading...' : isPlaylistVisible ? 'Hide Playlist' : 'View Playlist'}
+          </button>
+        </header>
+
+        {/* Routes */}
+        <Routes>
+          <Route
+            path="/"
+            element={
               <>
-                {/* SearchBar component */}
                 <SearchBar onSearch={handleSearch} />
-
-                {/* SearchResults component */}
                 <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} playlist={playlist} />
-
-                {/* Playlist */}
                 {isPlaylistVisible && (
                   <div className={`Playlist ${isPlaylistVisible ? 'active' : ''}`}>
                     <h2>Your Playlist</h2>
@@ -91,20 +115,17 @@ function App() {
                     )}
                   </div>
                 )}
-
-                {/* Display SaveToSpotifyButton */}
-                {playlist.length > 0 && <SaveToSpotifyButton customPlaylistName="My Custom Playlist" customTrackUris={playlist.map((track) => track.uri)} />}
+                {playlist.length > 0 && (
+                  <SaveToSpotifyButton customPlaylistName="My Custom Playlist" customTrackUris={playlist.map((track) => track.uri)} />
+                )}
               </>
-            )} />
-            
-            {/* Callback route for Spotify authentication */}
-            <Route path="/callback" element={<Callback />} /> {/* This route handles the callback page */}
-            
-            {/* Add more routes here as needed */}
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+            }
+          />
+          <Route path="/callback" element={<Callback />} />
+          <Route path="/playlist" element={<Playlist playlist={playlist} />} /> {/* Playlist route */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
