@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom'; // Ensure Routes and Route are imported
+import { BrowserRouter as Route, Routes, useNavigate } from 'react-router-dom'; // Ensure Routes and Route are imported
 
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
@@ -9,7 +9,7 @@ import './App.css';
 import '../SearchBar/SearchBar.css';
 import Callback from '../Callback';
 import Playlist from '../Playlist/Playlist'; 
-
+ 
 function App() {
   const [tracks, setTracks] = useState([]);
   const [playlist, setPlaylist] = useState([]);
