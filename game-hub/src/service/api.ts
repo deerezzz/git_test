@@ -1,37 +1,45 @@
 import axios from 'axios';
-import { getOAuthToken } from './auth';
+import getOAuthToken from '../service/auth';
 
 interface Game {
   id: number;
   name: string;
   release_dates?: { human: string }[];
+  cover?: { url: string };
 }
 
-export const fetchGames = async (): Promise<Game[]> => {
-  const token = await getOAuthToken();
+const fetchGames = async (): Promise<Game[]> => {
+  const token = await getOAuthToken(); // Get OAuth token
 
   try {
-    const response = await axios.post<Game[]>(
-      '/api/games',
+    console.log("Fetching games...");
+
+    const response = await axios.post(
+      "/api/games", // This will now hit the local backend through the proxy
       {
-        fields: 'name,release_dates,cover.url',
-        limit: 10,
+        fields: "id,name,release_dates.human,cover.url", // Fields you want to fetch
+        limit: 10, // Limit number of games to fetch
       },
       {
         headers: {
-          'Client-ID': import.meta.env.VITE_CLIENT_ID,
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Client-ID": import.meta.env.VITE_CLIENT_ID, // Client ID from env variables
+          Authorization: `Bearer ${token}`, // Add Authorization header with the token
         },
       }
     );
-    console.log('Fetched game data:', response.data); // Log the fetched data
-    return response.data;
+
+    console.log("API response:", response.data); // Log response for debugging
+
+    if (!Array.isArray(response.data)) {
+      console.error("Unexpected response format:", response.data);
+      throw new Error("Invalid response format");
+    }
+
+    return response.data; // Return fetched games
   } catch (error) {
-    console.error('Error fetching games:', error);
-    throw error;
+    console.error("Error fetching games:", error); // Log any errors
+    throw error; // Rethrow error to propagate it
   }
 };
 
-
-export default fetchGames; 
+export default fetchGames;
