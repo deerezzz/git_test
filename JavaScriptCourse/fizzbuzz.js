@@ -23,3 +23,24 @@ function fizzBuzz(number) {
 }
 
 console.log(fizzBuzz(15)); // Outputs 'FizzBuzz'
+
+// Alternative #2 
+
+const output = fizzBuzz(15);
+console.log(output); 
+
+function fizzBuzz(input) {
+    if ((input % 3) && (input % 5 === 0))
+           return 'FizzBuzz'
+
+    if (typeof input !== 'number')
+        return 'Not a number'; 
+
+    if (input % 3 === 0)
+        return 'Fizz';
+
+    if (input % 5 === 0)
+        return 'Buzz'; 
+   
+    return input; 
+}
