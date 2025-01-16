@@ -11,3 +11,15 @@ function fizzBuzz(number) {
   }
   
   console.log(fizzBuzz(15)); 
+
+
+  // alternative 
+
+  function fizzBuzz(number) {
+    return (number % 3 === 0 && number % 5 === 0) ? 'FizzBuzz' :
+           (number % 3 === 0) ? 'fizz' :
+           (number % 5 === 0) ? 'Buzz' :
+           number;
+}
+
+console.log(fizzBuzz(15)); // Outputs 'FizzBuzz'
